@@ -1,6 +1,7 @@
-import requests;
+import requests
 
-class Registiration:
+
+class Registration:
     username = ""
     password = ""
     debug = False
@@ -10,7 +11,7 @@ class Registiration:
         self.username = u
         self.password = p
 
-    def setDebug(self, d):
+    def set_debug(self, d):
         self.debug = d
 
     def log(self, message):
@@ -19,7 +20,8 @@ class Registiration:
 
     def login(self):
         self.log("-- LOGIN")
-        r = self.session.post('https://registration.boun.edu.tr/scripts/loginst.asp', data = {'user_id': self.username, 'user_pass': self.password}).text
+        r = self.session.post('https://registration.boun.edu.tr/scripts/loginst.asp',
+                              data={'user_id': self.username, 'user_pass': self.password}).text
         if "hatakullanici" in r:
             self.log("---- Hatali giris bilgisi")
             return False
@@ -30,9 +32,9 @@ class Registiration:
             self.log("---- Giris basarili")
             return True
 
-    def changeSection(self, abbr, code, section):
+    def change_section(self, abbr, code, section):
         course = str(abbr) + " " + str(code) + "." + str(section)
-        r = self.session.post('https://registration.boun.edu.tr/scripts/secchaact.asp', data = {'R1': course}).text
+        r = self.session.post('https://registration.boun.edu.tr/scripts/secchaact.asp', data={'R1': course}).text
         if "You cannot take this course" in r:
             self.log(course + " - Alinamadi")
             return False
@@ -43,14 +45,17 @@ class Registiration:
             self.log("!!!! " + course + " - Aldi")
             return True
 
-    def takeCourse(self, abbr, code, section):
+    def take_course(self, abbr, code, section, non_credit=False):
+        rnc1 = 'N'
+        if non_credit:
+            rnc1 = 'NC'
         course = str(abbr) + " " + str(code) + "." + str(section)
-        r = self.session.post('https://registration.boun.edu.tr/scripts/studentaction.asp', data = {
-            'abbr1'    : str(abbr),
-            'code1'    : str(code),
-            'section1' : str(section),
-            'rnc1'     : 'N',
-            'B1'       : 'Quick Add'
+        r = self.session.post('https://registration.boun.edu.tr/scripts/studentaction.asp', data={
+            'abbr1': str(abbr),
+            'code1': str(code),
+            'section1': str(section),
+            'rnc1': str(rnc1),
+            'B1': 'Quick Add'
         }).text
         if "course couldn't be added to your list" in r:
             self.log(course + " - Alinamadi")

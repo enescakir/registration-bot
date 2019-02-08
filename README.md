@@ -8,10 +8,10 @@
 
 ### Usage
 ```python
-    reg = Registiration("STUDENT_ID", "STUDENT_PASSWORD")
-    reg.setDebug(True)
+    reg = Registration(STUDENT_ID, STUDENT_PASSWORD)
+    reg.set_debug(True)
     reg.login():
-    reg.takeCourse("CMPE", "493", "01")
+    reg.take_course("CMPE", "493", "01")
     for i in range(11,15):
-        reg.changeSection("HTR", "312", i)
+        reg.change_section("HTR", "312", i)
 ```
