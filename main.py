@@ -1,20 +1,20 @@
 from registration import Registration
-import datetime
 import time
+import random
 
 STUDENT_ID = "STUDENT_ID"
 STUDENT_PASSWORD = "STUDENT_PASSWORD"
 
 reg = Registration(STUDENT_ID, STUDENT_PASSWORD)
 reg.set_debug(True)
+
+reg.get_quota("HUM", "102", 11)
+
 if reg.login():
-    start = time.time()
-    count = 1
-    while time.time() - start < 55:
-        print("\n---------- " + str(datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + "---------- " + STUDENT_ID)
-        for i in range(11,15):
-            reg.change_section("HTR", "312", str(i))
-        reg.take_course("CMPE", "493", "01")
-        count += 1
-        time.sleep(2)
-    print("\n")
+    while True:
+        reg.take_course("CMPE", "493", 1)
+
+        for i in range(11, 14):
+            reg.change_section("HTR", "312", i)
+
+        time.sleep(random.randint(30, 90))
