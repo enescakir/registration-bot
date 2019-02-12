@@ -29,6 +29,7 @@ class RegistrationError(Enum):
     TOO_MANY_LOGIN = 3
     SESSION_EXPIRED = 4
     NOT_TAKEN = 5
+    WRONG_USER = 6
 
 
 class Registration:
@@ -77,6 +78,10 @@ class Registration:
         if "hatakullanici" in r:
             self.error_log("Wrong credentials", "LOGIN")
             self.error = RegistrationError.WRONG_CREDENTIALS
+            return False
+        elif "Wrong User" in r:
+            self.error_log("Wrong user ID and password", "LOGIN")
+            self.error = RegistrationError.WRONG_USER
             return False
         elif "multiple times" in r:
             self.error_log("Too many login in 30 seconds", "LOGIN")
