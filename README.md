@@ -10,18 +10,24 @@
 ```python
     # Create instance
     reg = Registration(STUDENT_ID, STUDENT_PASSWORD)
-    
+
     # Set debug true for printing logs to console
     reg.set_debug(True)
-    
+
     # Get quota for HUM102.01
     reg.get_quota("HUM", "102", 11)
 
     # If login your account is successful
     if reg.login():
         # Take CMPE493.01 course
-        reg.take_course("CMPE", "493", "01")
-        
+        reg.take_course("CMPE", "493", 1)
+
+        # Take CMPE49J.01 course non-credit
+        reg.take_course("CMPE", "49J", 1, True)
+
+        # Take HTR312.01 course credit and with repeat
+        reg.take_course("CMPE", "49J", 1, False, "HTR 312 DD")
+
         # Try to change HTR312 section 11 to 14
         for i in range(11,15):
             reg.change_section("HTR", "312", i)
