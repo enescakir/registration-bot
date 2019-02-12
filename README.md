@@ -25,8 +25,8 @@
         # Take CMPE49J.01 course non-credit
         reg.take_course("CMPE", "49J", 1, True)
 
-        # Take HTR312.01 course credit and with repeat
-        reg.take_course("CMPE", "49J", 1, False, "HTR 312 DD")
+        # Take HTR312.01 course credit and with-repeat
+        reg.take_course("HTR", "312", 11, False, "HTR 312 DD")
 
         # Try to change HTR312 section 11 to 14
         for i in range(11,15):
