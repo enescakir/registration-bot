@@ -167,3 +167,29 @@ class Registration:
             })
 
         return quotas
+
+    def check_quota(self, abbr, code, section, department, year, statu):
+        quotas = self.get_quota(abbr, code, section)
+        
+        if quotas['class'] != []:
+            flag = False
+            for classQuota in quotas['class']:
+                if classQuota['class'] == year:
+                    if classQuota['current'] < classQuota['quota']:
+                        flag = True
+            if not flag:
+                return False
+
+        flag = False
+        for departmentQuota in quotas['departmental']:
+            if departmentQuota['statu'] != "ALL" and statu != departmentQuota['statu']:
+                continue
+            if departmentQuota['department'] == department:
+                if departmentQuota['current'] < departmentQuota['quota']:
+                    return True
+                else:
+                    return False
+            if departmentQuota['department'] == 'ALL':
+                if departmentQuota['current'] < departmentQuota['quota']:
+                    flag = True
+        return flag

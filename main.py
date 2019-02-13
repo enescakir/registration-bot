@@ -5,10 +5,12 @@ import random
 STUDENT_ID = "STUDENT_ID"
 STUDENT_PASSWORD = "STUDENT_PASSWORD"
 
+CLASS_ABBR = "PA"
+CLASS_CODE = "212"
+CLASS_SECTION = "1"
+
 reg = Registration(STUDENT_ID, STUDENT_PASSWORD)
 reg.set_debug(True)
-
-reg.get_quota("HUM", "102", 11)
 
 if reg.login():
     while True:
