@@ -133,6 +133,14 @@ class Registration:
         else:
             self.success_log("TAKEN", course)
             return True
+    
+    def get_numeric_quota(self, quota):
+        if "Consent Of Instructor" in quota:
+            return 0
+        elif "Unlimited" in quota:
+            return 100000 # TODO: change with infinity number in python
+        else:
+            return int(quota)
 
     def get_quota(self, abbr, code, section):
         quotas = {"departmental": [], "class": []}
@@ -154,8 +162,8 @@ class Registration:
             quotas['departmental'].append({
                 "department": columns[0].text.encode('ascii', errors='ignore').decode(),
                 "statu": columns[1].text.encode('ascii', errors='ignore').decode(),
-                "quota": int(columns[2].text),
-                "current": int(columns[3].text)
+                "quota": self.get_numeric_quota(columns[2].text),
+                "current": self.get_numeric_quota(columns[3].text)
             })
         grades = tables[1].find_all(class_='schtd')
         for grade in grades:
@@ -173,15 +181,17 @@ class Registration:
         
         if quotas['class'] != []:
             flag = False
+            
             for classQuota in quotas['class']:
                 if classQuota['class'] == year:
                     if classQuota['current'] < classQuota['quota']:
                         flag = True
             if not flag:
                 return False
-
+        
         flag = False
         for departmentQuota in quotas['departmental']:
+
             if departmentQuota['statu'] != "ALL" and statu != departmentQuota['statu']:
                 continue
             if departmentQuota['department'] == department:
